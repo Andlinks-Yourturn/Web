@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Panel, Input, Modal, Radio, PageList } from 'mtui/index';
 import { getDateStringFromUnix } from '../../utils/util';
-import { donateForProject } from '../../services/donator';
+import { donateForProject, fetchBenefit } from '../../services/donator';
 
 export default class DonatorContentBody extends Component {
 
@@ -9,7 +9,10 @@ export default class DonatorContentBody extends Component {
         super(props);
         this.state = {
             checkedProject: null,
-            showProjectMore: false
+            showProjectMore: false,
+            projectBenefits: null,   // 项目受益者
+            formData: {},
+            selectedIndex: null      // 选择的项目下标
         }
 
         this.inputChange = this.inputChange.bind(this);
@@ -33,7 +36,8 @@ export default class DonatorContentBody extends Component {
     }
 
     // 项目单选
-    radioCheck(project) {
+    radioCheck(project, index ) {
+        this.selectedIndex = index;
         this.setState({
             checkedProject: project
         });
@@ -46,7 +50,20 @@ export default class DonatorContentBody extends Component {
                 id: this.state.checkedProject.id,
                 balance: this.props.balance
             }, this.state.formData)).then((res) => {
-                console.log('res:', res);
+                if(res && res.status === 'SUCCESS' && res.result) {
+                    this.refs['donateAgain'].showModal(false);
+                    if(res.result) {
+                        this.props.callback.donateSuccessCb(this.selectedIndex, res.result.totalDonation);
+                    }
+                }
+
+                if(res.status === 'ERROR') {
+                    if(res.info) {
+                        console.error('DONATEMONEY-FORPOJECT:', res.info);
+                    }else {
+                        console.error('为项目捐款错误！');
+                    }
+                }
             })
         }
 
@@ -57,6 +74,16 @@ export default class DonatorContentBody extends Component {
         if(this.state.checkedProject.id) {
             this.setState({
                 showProjectMore: true
+            }, () => {
+                // 显示受益者
+
+                fetchBenefit({ id: this.state.checkedProject.id}).then(res => {
+                    if(res && res.status === 'SUCCESS' && res.result) {
+                        this.setState({
+                            projectBenefits: res.result || []
+                        });
+                    }
+                })
             });
         }
     }
@@ -76,6 +103,7 @@ export default class DonatorContentBody extends Component {
         const { projectList, columnName } = tableBody;
 
         const projectCriteria = this.state.checkedProject;
+        const projectBenefits = this.state.projectBenefits;
 
         return <div className="donator-content-body">
             {/* 项目列表 */}
@@ -95,9 +123,9 @@ export default class DonatorContentBody extends Component {
                     </thead>
                     <tbody>
                         {
-                            (projectList && projectList.length > 0) && projectList.map((project) => {
+                            (projectList && projectList.length > 0) && projectList.map((project, index) => {
                                 return <tr key={ project.id }>
-                                        <td><Radio checked={ (this.state.checkedProject && this.state.checkedProject.id === project.id)? true: false} onChange={ this.radioCheck.bind(this, project ) }>&nbsp;</Radio></td>
+                                        <td><Radio checked={ (this.state.checkedProject && this.state.checkedProject.id === project.id)? true: false} onChange={ this.radioCheck.bind(this, project, index ) }>&nbsp;</Radio></td>
                                         {
                                             (columnName && columnName.length > 0) && columnName.map((column, index) => {
                                                 let deep = null;
@@ -162,13 +190,13 @@ export default class DonatorContentBody extends Component {
                             </tbody>
                         </table>
                     </Panel>
-                    <Panel className="project-benefit" header="Benifit">
+                    <Panel className="project-benefit" header="Benefit">
                         <ul>
-                            {/*{*/}
-                            {/*(projectRelation && projectRelation.projectBenefit) && projectRelation.projectBenefit.map((projectBenefit, index) => {*/}
-                            {/*return <li key={ index }>{ projectBenefit.name }</li>*/}
-                            {/*})*/}
-                            {/*}*/}
+                            {
+                                (projectBenefits && projectBenefits.length > 0) && projectBenefits.map((projectBenefit, index) => {
+                                return <li key={ index }>{ projectBenefit.userName }</li>
+                                })
+                            }
                         </ul>
                     </Panel>
                 </div>
@@ -183,8 +211,8 @@ export default class DonatorContentBody extends Component {
                     <div className="panel-body">
                         <Input name="projectName" disabled="true" value={ this.state.checkedProject ? this.state.checkedProject.projectName : ''}/>
                         <Input name="myBalance" disabled="true" value={ `余额:${balance || 0}` }/>
-                        <Input name="amount" placeholder="Amount" type="text" onChange={ (e) => this.inputChange(e, 'amount') }/>
-                        <Input name="password" placeholder="Password" type="password" onChange={ (e) => this.inputChange(e, 'password') }/>
+                        <Input name="amount" placeholder="(份数)" type="text" onChange={ (e) => this.inputChange(e, 'amount') } value={ this.state.formData.amount || '' }/>
+                        <Input name="password" placeholder="Password" type="password" onChange={ (e) => this.inputChange(e, 'password') } value={ this.state.formData.password || ''}/>
 
                         <Button className="donate-btn" onClick={ this.donateMoney.bind(this) }>Donate</Button>
                     </div>

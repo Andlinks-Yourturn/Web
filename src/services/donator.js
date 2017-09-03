@@ -68,4 +68,17 @@ function donateForProject(param) {
     })
 }
 
-export { addProject, recharge, fetchMyProjectList, fetchAllProjectList, donateForProject } ;
+/**
+ * @description 获取受益者列表
+ * @param param
+ * @returns {Object}
+ */
+function fetchBenefit(param) {
+    return AJAX({
+        url: `/api/donation/benefit/${param.id}`,
+        type: HttpMethod.GET,
+        data: null
+    })
+}
+
+export { addProject, recharge, fetchMyProjectList, fetchAllProjectList, donateForProject, fetchBenefit } ;

@@ -10,7 +10,8 @@ export default class DonatorHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            myProjects: []
+            myProjects: [],
+            projectNum: 0
         }
     }
 
@@ -40,7 +41,8 @@ export default class DonatorHome extends Component {
         let content = result.content;
         if(content && content.length > 0) {
             this.setState({
-                myProjects: content
+                myProjects: content,
+                projectNum: result.totalElements
             })
         }else {
             this.setState({
@@ -56,6 +58,19 @@ export default class DonatorHome extends Component {
         }else {
             console.error('获取我的项目列表错误！');
         }
+    }
+
+    donateSuccessCb(index, totalDonation) {
+        if(typeof index === 'number') {
+            this.state.myProjects[index].totalDonation = totalDonation;
+
+            this.setState({
+                myProject: this.state.myProjects[index]
+            }, () => {
+                setBalance.call(this, 'donatorBalance');
+            });
+        }
+
     }
 
     render() {
@@ -81,7 +96,7 @@ export default class DonatorHome extends Component {
                 ],
                 tableBody: {
                     projectList: this.state.myProjects,
-                    columnName: ['projectName', 'createDate', 'keyword', 'total_donation']
+                    columnName: ['projectName', 'createDate', 'keyword', 'totalDonation']
                 }
             },
             buttonName: 'Donate Again',
@@ -90,14 +105,15 @@ export default class DonatorHome extends Component {
 
         const callback = {
             successCallback: this.successCallback.bind(this),
-            errorCallback: this.errorCallback.bind(this)
+            errorCallback: this.errorCallback.bind(this),
+            donateSuccessCb: this.donateSuccessCb.bind(this)  // 为项目捐赠成功后的回调
         };
 
 
         return <Frame headerTitle="MainPage">
                     <div className="donator-home">
                         {/*内容头部*/}
-                        <DonatorContentHeader balance={ this.state.donatorBalance }></DonatorContentHeader>
+                        <DonatorContentHeader balance={ this.state.donatorBalance } projectNum={ this.state.projectNum }></DonatorContentHeader>
 
                         {/*内容体*/}
                         <DonatorContentBody { ...optionInfo } getProjectList={ this.getMyProjectList.bind(this) } callback={ callback }>

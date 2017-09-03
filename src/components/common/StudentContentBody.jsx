@@ -10,7 +10,7 @@ export default class StudentContentBody extends Component {
         this.state = {
             radioCheckedIndex: null,
             showCriteria: false,
-            projectCriteria: {}         // 项目的评判标准
+            projectCriteria: {},         // 项目的评判标准
         }
     }
 
@@ -22,7 +22,10 @@ export default class StudentContentBody extends Component {
 
     showCriteria() {
 
-        this.props.projectId = this.props.tableData.tableBody.projectList[this.state.radioCheckedIndex].id;
+        if(this.props.setProjectId && typeof this.state.radioCheckedIndex === 'number') {
+            this.props.setProjectId(this.state.radioCheckedIndex);
+        }
+
         this.setState({
             showCriteria: true
         },() => {
@@ -67,7 +70,7 @@ export default class StudentContentBody extends Component {
                                                     return <td key={ index }>{ project[deep[0]][deep[1]]}</td>;
                                                 } else {
                                                     if(column === 'verifyPassTime' || column === 'createDate') {
-                                                        return  <td key={ index }>{ getDateStringFromUnix(project[column])}</td>;
+                                                        return  <td key={ index }>{ project[column] ? getDateStringFromUnix(project[column]) : ''}</td>;
                                                     }
                                                     return <td key={ index }>{ project[column]}</td>;
                                                 }

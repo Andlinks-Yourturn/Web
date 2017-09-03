@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Frame from '../../layouts/Frame';
-import { Panel, Modal } from 'mtui/index';
+import { Panel } from 'mtui/index';
 import StudentContentHeader from "../common/StudentContentHeader";
 import StudentContentBody from '../common/StudentContentBody';
 import { fetchSuccessApplyList } from '../../services/student';
@@ -12,7 +12,8 @@ export default class StudentHome extends Component {
         super(props);
         this.state = {
             myProjectList: [],
-            projectCriteria: {}         // 项目的评判标准
+            projectCriteria: {},        // 项目的评判标准
+            projectNum: 0
         }
     }
 
@@ -40,7 +41,8 @@ export default class StudentHome extends Component {
         let content = result.content;
         if(content && content.length > 0) {
             this.setState({
-                myProjectList: content
+                myProjectList: content,
+                projectNum: result.totalElements
             })
         }else {
             this.setState({
@@ -123,9 +125,9 @@ export default class StudentHome extends Component {
         return <Frame headerTitle="Main Page">
             <div className="student-home">
                 {/*头部*/}
-                <StudentContentHeader projectNum={ this.state.myProjectList.length }/>
+                <StudentContentHeader projectNum={ this.state.projectNum }/>
 
-                <StudentContentBody { ...optionInfo } showCriteriaData={ this.showCriteriaData.bind(this) }>
+                <StudentContentBody { ...optionInfo } showCriteriaData={ this.showCriteriaData.bind(this) } >
                     {/*标准文档*/}
                     <Panel header="Criteria Document" className="criteria-document">
                         <dl className="dl-horizontal">
@@ -142,20 +144,6 @@ export default class StudentHome extends Component {
                 </StudentContentBody>
 
             </div>
-
-            {/* 申请成功后的弹窗 */}
-            <Modal ref="appliedGo" modalClassName="animated bounceInDown" style={{width:608, height:375}} className="donate-again-modal">
-                <div className="mt-panel-min">
-                    <div className="panel-header">
-                        <h3>提示</h3>
-                    </div>
-                    <div className="panel-body">
-                        <div className="tip-content">
-                            申请成功！
-                        </div>
-                    </div>
-                </div>
-            </Modal>
         </Frame>;
     }
 }

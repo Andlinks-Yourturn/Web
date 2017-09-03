@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Dropdown, Modal, Input } from 'mtui/index';
 import { recharge } from '../../services/donator';
+import setBalance from '../../services/common';
 import '../../styles/donator_content.scss';
 
 
@@ -13,10 +14,19 @@ export default class DonatorContentHeader extends Component{
             myProjectList: [],
             rechargeFormData: {
 
-            }
+            },
+            donatorBalance: this.props.balance || 0
         }
 
         this.inputChange = this.inputChange.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.donatorBalance !== this.props.balance) {
+            this.setState({
+                donatorBalance: this.props.balance
+            });
+        }
     }
 
     inputChange(e, name) {
@@ -40,6 +50,7 @@ export default class DonatorContentHeader extends Component{
             .then(res => {
                 if(res.status === 'SUCCESS' && res.result) {
                     // 更新账户余额数字
+                    setBalance.call(this, 'donatorBalance');
                     this.refs[refName].showModal(false);
                 }
 
@@ -65,7 +76,7 @@ export default class DonatorContentHeader extends Component{
             <div className="project-num-box">
                 Project
                 <span className="project-num">
-                    20
+                    { this.props.projectNum }
                 </span>
             </div>
 
@@ -76,7 +87,7 @@ export default class DonatorContentHeader extends Component{
                 </Dropdown>
                 Balance
                 <span className="donator-money">
-                    { this.props.balance }
+                    { this.state.donatorBalance }
                 </span>
             </div>
 
@@ -95,7 +106,7 @@ export default class DonatorContentHeader extends Component{
                     </div>
                     <div className="panel-body">
                         <Input name="amount" placeholder="Amount" onChange={ (e) => this.inputChange(e, 'amount')}/>
-                        <Input name="password" placeholder="Password" type="password" onChange={ (e) => this.inputChange(e, 'password')}/>
+                            <Input name="password" placeholder="Password" type="password" onChange={ (e) => this.inputChange(e, 'password')}/>
 
                         <Button className="sure-recharge-btn" onClick={ this.rechargeSubmit.bind(this, 'recharge') }>Recharge</Button>
                     </div>

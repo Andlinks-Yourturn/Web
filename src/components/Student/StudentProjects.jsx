@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import StudentContentHeader from "../common/StudentContentHeader";
 import StudentContentBody from "../common/StudentContentBody";
 import { fetchNoApplyList, applyProject } from '../../services/student';
-import { Panel, Button } from 'mtui/index';
+import { Panel, Button, Modal } from 'mtui/index';
 import { getLocal } from '../../utils/storage';
 import Frame from "../../layouts/Frame";
 
@@ -13,8 +13,11 @@ export default class StudentProjects extends Component {
         super(props);
         this.state = {
             noApplyList: [],
-            projectCriteria: {},         // 项目的评判标准
-            selectedProjectId: null
+            projectCriteria: {},            // 项目的评判标准
+            selectedProjectId: null,
+            applyResult: '',                // 项目申请结果
+            showApplyBtn: true,             // 申请项目按钮显示
+            projectNum: 0                   // 项目个数
         }
     }
 
@@ -42,7 +45,8 @@ export default class StudentProjects extends Component {
         let content = result.content;
         if(content && content.length > 0) {
             this.setState({
-                noApplyList: content
+                noApplyList: content,
+                projectNum: result.totalElements
             })
         }else {
             this.setState({
@@ -95,11 +99,43 @@ export default class StudentProjects extends Component {
             applyProject({
                 id: projectId
             }).then((res => {
-                console.log('res:', res);
+               if(res && res.status === 'SUCCESS' && res.result) {
+                   if(res.result.status === 'success') {
+                       this.state.applyResult = '申请成功!';
+                       this.state.showApplyBtn = false;
+                   }
+                   if(res.result.status === 'failure') {
+                       this.state.applyResult = '申请失败!';
+                   }
+
+                   this.setState({
+                       applyResult: this.state.applyResult,
+                       showApplyBtn: this.state.showApplyBtn
+                   }, () => {
+                       this.refs['appliedGo'].showModal(true);
+                   });
+               }
+               if(res && res.status === 'ERROR') {
+                   if(res.info) {
+                       console.error('APPLYPOJECT:', res.info);
+                   }else {
+                       console.error('申请项目失败！');
+                   }
+               }
             }))
         }
 
     }
+
+    // 获取已选中的项目的ID
+    setProjectId(checkedIndex) {
+        if(typeof checkedIndex === 'number') {
+            this.setState({
+                selectedProjectId: this.state.noApplyList[checkedIndex].id
+            });
+        }
+    }
+
 
 
     render() {
@@ -127,7 +163,7 @@ export default class StudentProjects extends Component {
                 ],
                 tableBody: {
                     projectList: this.state.noApplyList,
-                    columnName: ['projectName', 'keyword', 'creator-userName', 'total_donation', 'createDate']
+                    columnName: ['projectName', 'keyword', 'creator-userName', 'totalDonation', 'createDate']
                 }
             },
             buttonName: '比较条件'
@@ -137,9 +173,9 @@ export default class StudentProjects extends Component {
 
         return <Frame headerTitle="Project Info">
             <div className="student-projects">
-                <StudentContentHeader projectNum={ this.state.noApplyList.length }/>
+                <StudentContentHeader projectNum={ this.state.projectNum }/>
 
-                <StudentContentBody  { ...optionInfo } showCriteriaData={ this.showCriteriaData.bind(this) } projectId={ this.state.selectedProjectId }>
+                <StudentContentBody  { ...optionInfo } showCriteriaData={ this.showCriteriaData.bind(this) } setProjectId={ this.setProjectId.bind(this) }>
                     <div className="contrast-info">
                         <Panel header="Project Info" className="project-info">
                             <dl className="dl-horizontal">
@@ -166,11 +202,25 @@ export default class StudentProjects extends Component {
                                 <dd>{ personalInfo.rank }</dd>
                             </dl>
 
-                            <Button className="apply-btn" onClick={ this.applyProject.bind(this) }>Apply</Button>
+                            { this.state.showApplyBtn && <Button className="apply-btn" onClick={ this.applyProject.bind(this) }>Apply</Button>}
                         </Panel>
                     </div>
                 </StudentContentBody>
             </div>
+
+            {/* 申请结果的弹窗 */}
+            <Modal ref="appliedGo" modalClassName="animated bounceInDown" style={{width:608, height:160}} className="apply-result-modal">
+                <div className="mt-panel-min">
+                    <div className="panel-header">
+                        <h3>提示</h3>
+                    </div>
+                    <div className="panel-body">
+                        <div className="tip-content">
+                            { this.state.applyResult }
+                        </div>
+                    </div>
+                </div>
+            </Modal>
         </Frame>;
 
     }

@@ -19,7 +19,7 @@ export default class TeacherContentHeader extends Component{
                     <div className="student-num-box">
                         Total Student
                         <span className="student-num">
-                            { this.props.projectNum }
+                            { this.props.studentNum }
                         </span>
                     </div>
 

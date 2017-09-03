@@ -45,7 +45,7 @@ function applyProject(param) {
     return AJAX({
         url: `/api/sch/${ param.id }`,
         type: HttpMethod.POST,
-        data: param || null
+        data: null
     });
 }
 

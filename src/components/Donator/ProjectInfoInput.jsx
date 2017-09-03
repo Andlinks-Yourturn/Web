@@ -106,7 +106,7 @@ export default class ProjectInfoInput extends Component {
 
                         <div>
                             <label htmlFor="totalDonation">Total Donation</label>
-                            <Input name="totalDonation" type="text" placeholder="Total Donation" onChange={ (e) => this.inputChange(e, 'total_donation') }/>
+                            <Input name="totalDonation" type="text" placeholder="Total Donation" onChange={ (e) => this.inputChange(e, 'totalDonation') }/>
                         </div>
 
                         <div>

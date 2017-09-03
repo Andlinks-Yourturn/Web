@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
+import setBalance from '../../services/common';
 import '../../styles/student_content.scss';
 
 export default class StudentContentHeader extends Component{
 
     constructor(props) {
         super(props);
+        this.state = {
+            studentBalance: 0
+        };
+    }
+
+    componentDidMount() {
+        setBalance.call(this, 'studentBalance');
     }
 
     render() {
@@ -21,7 +29,7 @@ export default class StudentContentHeader extends Component{
                 <div className="total-benefit-box">
                     Total Benefit
                     <span className="benefit-money">
-                        $100
+                        { this.state.studentBalance }
                     </span>
                 </div>
 

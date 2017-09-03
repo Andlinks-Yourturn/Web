@@ -20,6 +20,7 @@ export default class TeacherStudents extends Component {
             },                          // 分页信息
             radioCheckedId: null,       // 被激活的Id
             showDetailFlag: false,      // 显示右侧详情栏
+            studentNum: 0               // 学生数目
         }
 
         this.studentDividedById = {};   // 按学生Id划分对象
@@ -60,7 +61,8 @@ export default class TeacherStudents extends Component {
             }
 
             this.setState({
-                studentList: content || []
+                studentList: content || [],
+                studentNum: result.totalElements
             });
         }
 
@@ -115,7 +117,7 @@ export default class TeacherStudents extends Component {
 
         return <Frame headerTitle="Main Page">
             <div className="teacher-home">
-                <TeacherContentHeader projectNum={ this.state.studentList.length }></TeacherContentHeader>
+                <TeacherContentHeader studentNum={ this.state.studentNum }></TeacherContentHeader>
 
                 <div className="content-body">
 
