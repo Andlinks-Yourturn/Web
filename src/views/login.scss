@@ -76,6 +76,18 @@
             border-color: $blue;
             color: $white;
         }
+
+        .no-account-box {
+            text-align: left;
+            font-size: 0.65rem;
+            color: #fff;
+            padding-top: 0.75rem;
+            a {
+                color: #5585FE;
+                font-size: 0.65rem;
+                margin-left: 3px;
+            }
+        }
     }
 
 }
