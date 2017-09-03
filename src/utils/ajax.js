@@ -136,6 +136,11 @@ export function AJAX({ url = null,
                     }
                 }
 
+                if (data.status === 500) {
+                    Tip.error('Internal Server Error');
+                    reject(data);
+                    return;
+                }
                 // 返回成功
                 if (data.status === 'SUCCESS') {
                     if(data.info) {

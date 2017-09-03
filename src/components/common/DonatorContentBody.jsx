@@ -91,9 +91,11 @@ export default class DonatorContentBody extends Component {
     // 按关键字搜索
     searchProjectList() {
         const callback  = this.props.callback;
-        if(this.searchText) {
-            this.props.getProjectList({ input: this.searchText })(callback.successCallback, callback.errorCallback);
+
+        if(this.searchText === undefined) {
+            this.searchText = '';
         }
+        this.props.getProjectList({ input: this.searchText })(callback.successCallback, callback.errorCallback);
     }
 
     render() {

@@ -6,7 +6,6 @@ import { Panel, Button, Modal } from 'mtui/index';
 import { getLocal } from '../../utils/storage';
 import Frame from "../../layouts/Frame";
 
-const personalInfo = getLocal('userInfo');
 export default class StudentProjects extends Component {
 
     constructor(props) {
@@ -19,6 +18,7 @@ export default class StudentProjects extends Component {
             showApplyBtn: true,             // 申请项目按钮显示
             projectNum: 0                   // 项目个数
         }
+        this.personalInfo = getLocal('userInfo');
     }
 
     componentDidMount() {
@@ -141,7 +141,7 @@ export default class StudentProjects extends Component {
     render() {
 
         const optionInfo = {
-            panelHeader: 'My Project Applied',
+            panelHeader: 'My Project UnApplied',
             tableData: {
                 tableHeader: [
                     {
@@ -193,13 +193,13 @@ export default class StudentProjects extends Component {
                         <Panel header="Personal Info" className="personal-info">
                             <dl className="dl-horizontal">
                                 <dt>Age</dt>
-                                <dd>{ personalInfo.age }</dd>
+                                <dd>{ this.personalInfo.age }</dd>
                                 <dt>Major</dt>
-                                <dd>{ personalInfo.major }</dd>
+                                <dd>{ this.personalInfo.major }</dd>
                                 <dt>GPA</dt>
-                                <dd>{ personalInfo.gpa }</dd>
+                                <dd>{ this.personalInfo.gpa }</dd>
                                 <dt>Rank</dt>
-                                <dd>{ personalInfo.rank }</dd>
+                                <dd>{ this.personalInfo.rank }</dd>
                             </dl>
 
                             { this.state.showApplyBtn && <Button className="apply-btn" onClick={ this.applyProject.bind(this) }>Apply</Button>}
