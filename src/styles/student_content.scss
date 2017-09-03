@@ -1,0 +1,159 @@
+.student-content-header {
+    display: -webkit-flex;
+    display: flex;
+
+    & > div {
+        -webkit-flex: 1;
+        flex: 1;
+        height: 7.5rem;
+        margin: 0 6px;
+        background-color: #fff;
+        text-align: center;
+        color: rgba(0, 0, 0, 0.5);
+        box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.3);
+    }
+
+    .project-num-box {
+        line-height: 3.25rem;
+        margin-left: 0;
+        .project-num {
+            display: block;
+            border-radius: 50%;
+            width: 4rem;
+            height: 4rem;
+            line-height: 2;
+            font-size: 1.8rem;
+            font-weight: bolder;
+            color: #5585FE;
+            border: 4px solid #5585FE;
+            text-align: center;
+            position: relative;
+            left: 50%;
+            margin-top: -10px;
+            margin-left: -2rem;
+        }
+    }
+
+    .total-benefit-box {
+        line-height: 3.25rem;
+        .benefit-money {
+            width: 7.5rem;
+            padding: 0.5rem 0;
+            border-radius: 4px;
+            line-height: 1.8;
+            border: 2px solid rgba(85, 133, 254, 0.58);
+            display: block;
+            position: relative;
+            left: 50%;
+            color: rgba(0, 0, 0, 0.4);
+            font-size: 1.1rem;
+            margin-left: -3.75rem;
+        }
+    }
+
+    .search-project-btn {
+        line-height: 3.25rem;
+        margin-right: 0;
+        .search-project {
+            background: url('../assets/images/search_icon.png') no-repeat scroll 0 0 / cover;
+            display: block;
+            width: 3rem;
+            height: 3rem;
+            position: relative;
+            left: 50%;
+            margin-left: -1.5rem;
+        }
+    }
+}
+
+.student-content-body {
+    margin-top: 1.3rem;
+    display: -webkit-flex;
+    display: flex;
+
+    .mt-panel-h2 {
+        border-bottom-width: 0;
+        padding-bottom: 0;
+    }
+
+    .mt-table th,
+    .mt-table td {
+        border-color: #B3B3B3;
+    }
+
+    .project-info {
+        position: relative;
+        flex: 1;
+        box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.3);
+        margin-top: 0;
+        .check-condition {
+            position: absolute;
+            background-color: #5585FE;
+            color: #fff;
+            right: 20px;
+            top: 10px;
+            border-radius: 3px;
+            text-align: center;
+        }
+    }
+
+    .criteria-document,
+    .contrast-info {
+        width: 260px;
+        margin-left: 20px;
+        box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.3);
+
+        .mt-panel-box {
+            margin-top: 45px;
+        }
+
+        .dl-horizontal dt {
+            float: left;
+            width: 100px;
+            overflow: hidden;
+            clear: left;
+            text-align: left;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-bottom: 2.6rem;
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        .dl-horizontal dd {
+            margin-left: 120px;
+            padding-bottom: 2.6rem;
+        }
+
+        .apply-btn {
+            background-color: #5585FE;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            width: 100%;
+            padding: 1rem 0;
+        }
+    }
+
+    .contrast-info {
+
+        box-shadow: none;
+        .mt-panel-box {
+            margin-top: 20px;
+        }
+
+        .dl-horizontal dt,
+        .dl-horizontal dd {
+            padding-bottom: 0.75rem;
+        }
+
+        .project-info,
+        .personal-info {
+            box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-info {
+            padding-bottom: 0;
+            margin-bottom: 15px;
+        }
+    }
+}

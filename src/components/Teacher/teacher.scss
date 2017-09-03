@@ -1,0 +1,83 @@
+.app-teacher {
+
+    .teacher-home {
+
+        .content-body {
+            margin-top: 1.3rem;
+            display: -webkit-flex;
+            display: flex;
+
+            .mt-panel-h2 {
+                border-bottom-width: 0;
+                padding-bottom: 0;
+            }
+
+            .student-info {
+                position: relative;
+                flex: 1;
+                box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.3);
+                max-height: 800px;
+                overflow: auto;
+
+                .show-detail {
+                    position: absolute;
+                    background-color: #5585FE;
+                    color: #fff;
+                    right: 20px;
+                    top: 10px;
+                    border-radius: 3px;
+                    text-align: center;
+                }
+
+
+                .load-more-btn {
+                    background-color: #fff;
+                    border: 1px solid #5585FE;
+                    font-size: 0.8rem;
+                    color: #5585FE;
+                    border-radius: 4px;
+                    padding: 0.5rem 0;
+                    text-align: center;
+                    width: 8rem;
+                    position: relative;
+                    left: 50%;
+                    margin-top: 1rem;
+                    margin-left: -4rem;
+
+                    &:hover {
+                        background-color: #5585FE;
+                        color: #fff;
+                    }
+                }
+            }
+
+            .student-detail {
+                width: 260px;
+                margin-left: 20px;
+                box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.3);
+
+                .mt-panel-box {
+                    margin-top: 45px;
+                }
+
+                .dl-horizontal dt {
+                    float: left;
+                    width: 100px;
+                    overflow: hidden;
+                    clear: left;
+                    text-align: left;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    padding-bottom: 2.6rem;
+                    color: rgba(0, 0, 0, 0.8);
+                }
+
+                .dl-horizontal dd {
+                    margin-left: 120px;
+                    padding-bottom: 2.6rem;
+                }
+
+            }
+        }
+    }
+}

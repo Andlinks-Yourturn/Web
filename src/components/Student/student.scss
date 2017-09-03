@@ -1,0 +1,108 @@
+.app-teacher {
+
+    // 学生信息录入 css
+    .student-info-input {
+        box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.3);
+        .mt-panel-h2 {
+            color: #8699B0;
+        }
+        .student-form {
+            text-align: center;
+            label {
+                height: 1.7rem;
+                line-height: 1.7rem;
+                display: inline-block;
+                text-align: left;
+                min-width: 10rem;
+            }
+            .mt-input {
+                border-color: #D3E1FF;
+                border-radius: 3px;
+                input {
+                    width: 265px;
+                    height: 1.5rem;
+                    line-height: 1;
+                    padding-left: 0.4rem;
+                    font-size: 0.7rem;
+                    color: rgba(0, 0, 0, 0.5);
+                }
+            }
+
+            .mt-select-input {
+                text-align: left;
+                border-color: #D3E1FF;
+                height: 1.8rem;
+                padding: 2px 4px;
+                padding-left: 0.4rem;
+                color: rgba(0, 0, 0, 0.5);
+                .iconfont {
+                    color: #5585FE;
+                }
+            }
+
+            .preview-ago {
+                &  > div {
+                    margin-bottom: 1.8rem;
+                }
+
+                .preview-btn {
+                    width: 10rem;
+                    padding: 15px;
+                    color: #fff;
+                    background-color: #5585FE;
+                    border-radius: 3px;
+                    font-size: 0.8rem;
+                    margin-top: 3.5rem;
+                }
+            }
+
+            .preview-future {
+                text-align: center;
+                li {
+                    margin-bottom: 1.8rem;
+                    label {
+                        height: 1.7rem;
+                        line-height: 1.7rem;
+                        display: inline-block;
+                        text-align: left;
+                        min-width: 10.2rem;
+                    }
+
+                    span {
+                        display: inline-block;
+                        width: 275px;
+                        text-align: left;
+                    }
+                }
+
+                .btn-group {
+                    text-align: center;
+
+                    .mt-btn {
+                        width: 10rem;
+                        padding: 15px;
+                        border-radius: 3px;
+                        font-size: 0.8rem;
+                        span {
+                            width: 100%;
+                        }
+                    }
+                    .back-btn {
+                        background-color: #fff;
+                        border: 1px solid #5585FE;
+                        border-radius: 4px;
+                        color: #5585FE;
+                        margin-right: 1rem;
+                    }
+
+                    .create-btn {
+                        background-color: #5585FE;
+                        border-radius: 4px;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+
+}
