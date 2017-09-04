@@ -3,7 +3,7 @@ import Frame from '../../layouts/Frame';
 import DonatorContentHeader from "../common/DonatorContentHeader";
 import DonatorContentBody from "../common/DonatorContentBody";
 import { fetchAllProjectList } from '../../services/donator';
-import setBalance from '../../services/common';
+import { setBalance } from '../../services/common';
 
 export default class DonatorProjects extends Component {
 
@@ -38,7 +38,7 @@ export default class DonatorProjects extends Component {
 
     // 成功后的回调
     successCallback(result) {
-        console.log('result', result);
+
         let content = result.content;
         if(content && content.length > 0) {
             this.setState({
@@ -86,14 +86,16 @@ export default class DonatorProjects extends Component {
                     },
                     {
                         name: 'Create Time',
-                        order: true
+                        sort: true,
+                        sortValue: 'createDate'
                     },
                     {
                         name: 'Key Word'
                     },
                     {
                         name: 'Balance',
-                        order: true
+                        sort: true,
+                        sortValue: 'totalDonation'
                     }
                 ],
                 tableBody: {
@@ -101,7 +103,9 @@ export default class DonatorProjects extends Component {
                     columnName: ['projectName', 'creator-userName', 'createDate', 'keyword', 'totalDonation']
                 }
             },
-            buttonName: 'Donate'
+            buttonName: 'Donate',
+            balance: this.state.donatorBalance,
+            projectNum: this.state.projectNum
         };
 
         const callback = {
@@ -110,14 +114,13 @@ export default class DonatorProjects extends Component {
             donateSuccessCb: this.donateSuccessCb.bind(this)  // 为项目捐赠成功后的回调
         };
 
-        return <Frame headerTitle="Project Info">
+        return <Frame headerTitle="Project Info" iconClass="icon-project">
             <div className="donator-projects">
                 {/*内容头部*/}
                 <DonatorContentHeader balance={ this.state.donatorBalance } projectNum={ this.state.projectNum }/>
 
                 {/*内容体*/}
-                <DonatorContentBody { ...optionInfo } getProjectList= { this.getAllProjectList.bind(this) } callback={ callback }>
-                </DonatorContentBody>
+                <DonatorContentBody { ...optionInfo } getProjectList= { this.getAllProjectList.bind(this) } callback={ callback } />
             </div>
         </Frame>;
     }

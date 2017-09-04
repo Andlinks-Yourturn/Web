@@ -166,16 +166,22 @@ export default class StudentProjects extends Component {
                     columnName: ['projectName', 'keyword', 'creator-userName', 'totalDonation', 'createDate']
                 }
             },
-            buttonName: '比较条件'
+            buttonName: '比较条件',
+            projectNum: this.state.projectNum
         };
 
         const projectCriteria = this.state.projectCriteria;
 
-        return <Frame headerTitle="Project Info">
+        const callback = {
+            successCallback: this.successCallback.bind(this),
+            errorCallback: this.errorCallback.bind(this),
+        };
+
+        return <Frame headerTitle="Project Info" iconClass="icon-project">
             <div className="student-projects">
                 <StudentContentHeader projectNum={ this.state.projectNum }/>
 
-                <StudentContentBody  { ...optionInfo } showCriteriaData={ this.showCriteriaData.bind(this) } setProjectId={ this.setProjectId.bind(this) }>
+                <StudentContentBody  { ...optionInfo } showCriteriaData={ this.showCriteriaData.bind(this) } setProjectId={ this.setProjectId.bind(this) } { ...callback } getProjectList={ this.getNoApplyList.bind(this) }>
                     <div className="contrast-info">
                         <Panel header="Project Info" className="project-info">
                             <dl className="dl-horizontal">

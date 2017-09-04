@@ -2,21 +2,26 @@ import React, { Component } from 'react';
 import { Button, Panel, Input, Modal, Radio, PageList } from 'mtui/index';
 import { getDateStringFromUnix } from '../../utils/util';
 import { donateForProject, fetchBenefit } from '../../services/donator';
+import { goToPage } from '../../services/common';
 
 export default class DonatorContentBody extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            checkedProject: null,
-            showProjectMore: false,
-            projectBenefits: null,   // 项目受益者
-            formData: {},
-            selectedIndex: null      // 选择的项目下标
+            checkedProject: null,       // 已经选择项目
+            showProjectMore: false,     // 显示更多项目
+            projectBenefits: null,      // 项目受益者
+            formData: {},               // 表单数据
+            selectedIndex: null,        // 选择的项目下标
+            isAsc: true                 // 是否是升序，默认是升序
         }
 
         this.inputChange = this.inputChange.bind(this);
         this.searchProjectList = this.searchProjectList.bind(this);
+
+        this.queryParam = { page: 1 };            // 查询参数
+        this.callback = this.props.callback;  // 回调函数
     }
 
     // 输入改变
@@ -90,17 +95,44 @@ export default class DonatorContentBody extends Component {
 
     // 按关键字搜索
     searchProjectList() {
-        const callback  = this.props.callback;
 
-        if(this.searchText === undefined) {
-            this.searchText = '';
+        if(this.searchText === undefined && this.queryParam.hasOwnProperty('input')) {
+            delete this.queryParam.input;
+        }else {
+            this.queryParam.input = this.searchText;
         }
-        this.props.getProjectList({ input: this.searchText })(callback.successCallback, callback.errorCallback);
+        this.props.getProjectList(this.queryParam)(this.callback.successCallback, this.callback.errorCallback);
+    }
+
+    // 根据时间或项目金额排序列表
+    sortProjectBy(sortKeyword, sortDirection) {
+
+        if(this.searchText !== undefined && this.searchText.trim() !== '') {
+            this.queryParam.input = this.searchText;
+        }
+
+        if(sortDirection && sortKeyword) {
+            this.queryParam.sort = sortKeyword + ',' + sortDirection;
+        }
+
+        this.setState({
+            isAsc: !this.state.isAsc
+        });
+
+        this.props.getProjectList(this.queryParam)(this.callback.successCallback, this.callback.errorCallback);
+    }
+
+    // 分页跳转
+    goToPage(pageInfo) {
+
+        if(pageInfo) {
+            goToPage.apply(this, [pageInfo, this.props.getProjectList])(this.queryParam, this.callback.successCallback, this.callback.errorCallback );
+        }
     }
 
     render() {
 
-        const { panelHeader, tableData, buttonName, balance } = this.props;
+        const { panelHeader, tableData, buttonName, balance, projectNum } = this.props;
         const { tableHeader, tableBody } = tableData;
         const { projectList, columnName } = tableBody;
 
@@ -118,7 +150,10 @@ export default class DonatorContentBody extends Component {
                             <th>&nbsp;</th>
                             {
                                 (tableHeader && tableHeader.length > 0) && tableHeader.map((columnName, index) => {
-                                    return <th key={ index }>{ columnName.name }</th>
+                                    if(columnName.sort) {
+                                        return <th key={ index }><div className="sort-box" onClick={ this.sortProjectBy.bind(this, columnName.sortValue, this.state.isAsc ? 'asc' : 'desc')}>{ columnName.name }{ columnName.sort && <i className="sort-icon"></i>}</div></th>;
+                                    }
+                                    return <th key={ index }>{ columnName.name }</th>;
                                 })
                             }
                         </tr>
@@ -149,7 +184,7 @@ export default class DonatorContentBody extends Component {
                 </table>
 
                 {/*分页*/}
-                {/*<PageList ref={ (c) => { this.refsPageList = c; }} current={1} pageSize={10} callback={this.callback} total={this.state.total}/>*/}
+                <PageList current={1} pageSize={10} callback={ this.goToPage.bind(this) } total={ projectNum }/>
             </Panel>
 
             {

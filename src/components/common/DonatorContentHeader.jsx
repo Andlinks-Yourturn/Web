@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Dropdown, Modal, Input } from 'mtui/index';
 import { recharge } from '../../services/donator';
-import setBalance from '../../services/common';
+import { setBalance } from '../../services/common';
 import '../../styles/donator_content.scss';
 
 
@@ -15,16 +15,17 @@ export default class DonatorContentHeader extends Component{
             rechargeFormData: {
 
             },
-            donatorBalance: this.props.balance || 0
+            donatorBalance: props.balance
         }
 
         this.inputChange = this.inputChange.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.donatorBalance !== this.props.balance) {
+
+        if (nextProps.balance !== this.props.balance) {
             this.setState({
-                donatorBalance: this.props.balance
+                donatorBalance: nextProps.balance
             });
         }
     }

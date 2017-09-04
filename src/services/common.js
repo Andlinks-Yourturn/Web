@@ -33,4 +33,24 @@ function setBalance(name) {
     })
 }
 
-export default setBalance;
+/**
+ * @description 分页
+ * @param pageInfo
+ * @param callback
+ * @returns {boolean|Function}
+ */
+function goToPage(pageInfo, callback) {
+    if(pageInfo.current) {
+        return typeof callback === 'function' && function (queryParam, successCb, errorCb) {
+            if(typeof queryParam === 'object') {
+                if(queryParam.page !== undefined) {
+                    queryParam.page = pageInfo.current - 1;
+                }
+                queryParam = Object.assign({}, queryParam, { page: pageInfo.current - 1 });
+                callback(queryParam)(successCb, errorCb);
+            }
+        }
+    }
+}
+
+export { setBalance, goToPage };

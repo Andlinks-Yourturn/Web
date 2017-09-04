@@ -16,7 +16,7 @@ export default class Frame extends Component {
             </section>
 
             <section className="right-box">
-                <Header title={ this.props.headerTitle } />
+                <Header title={ this.props.headerTitle } iconClass={ this.props.iconClass }/>
                 <div className="content-box">
                     {
                         this.props.children

@@ -116,18 +116,23 @@ export default class StudentHome extends Component {
                     columnName: ['projectName', 'keyWord', 'verifyPassTime', 'benefit']
                 }
             },
-            buttonName: '查看条件'
+            buttonName: '查看条件',
+            projectNum: this.state.projectNum
         };
 
         const projectCriteria = this.state.projectCriteria;
 
+        const callback = {
+            successCallback: this.successCallback.bind(this),
+            errorCallback: this.errorCallback.bind(this),
+        };
 
-        return <Frame headerTitle="Main Page">
+        return <Frame headerTitle="Main Page" iconClass="icon-homepage">
             <div className="student-home">
                 {/*头部*/}
                 <StudentContentHeader projectNum={ this.state.projectNum }/>
 
-                <StudentContentBody { ...optionInfo } showCriteriaData={ this.showCriteriaData.bind(this) } >
+                <StudentContentBody { ...optionInfo } showCriteriaData={ this.showCriteriaData.bind(this) } { ...callback } getProjectList={ this.getSuccessApplyList.bind(this) }>
                     {/*标准文档*/}
                     <Panel header="Criteria Document" className="criteria-document">
                         <dl className="dl-horizontal">

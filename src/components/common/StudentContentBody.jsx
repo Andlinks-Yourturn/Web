@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Panel, Radio, PageList } from 'mtui/index';
 import { getDateStringFromUnix } from '../../utils/util';
+import { goToPage } from '../../services/common';
 import '../../styles/student_content.scss';
 
 export default class StudentContentBody extends Component {
@@ -33,9 +34,16 @@ export default class StudentContentBody extends Component {
         });
     }
 
+    goToPage(pageInfo) {
+        if(pageInfo) {
+            goToPage.apply(this, [pageInfo, this.props.getProjectList])({}, this.props.successCallback, this.props.errorCallback );
+        }
+    }
+
+
     render() {
 
-        const { panelHeader, tableData, buttonName } = this.props;
+        const { panelHeader, tableData, buttonName, projectNum } = this.props;
         const { tableHeader, tableBody } = tableData;
         const { projectList, columnName } = tableBody;
 
@@ -83,7 +91,7 @@ export default class StudentContentBody extends Component {
                 </table>
 
                 {/*分页*/}
-                {/*<PageList ref={ (c) => { this.refsPageList = c; }} current={1} pageSize={10} callback={this.callback} total={this.state.total}/>*/}
+                <PageList current={1} pageSize={10} callback={ this.goToPage.bind(this) } total={ projectNum }/>
             </Panel>
 
             {

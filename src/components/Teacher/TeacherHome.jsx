@@ -120,7 +120,7 @@ export default class TeacherHome extends Component {
 
         const studentName = (studentDetail.lastName && studentDetail.firstName) ? `${studentDetail.lastName}.${studentDetail.firstName}` : studentDetail.userName || '';
 
-        return <Frame headerTitle="Main Page">
+        return <Frame headerTitle="Main Page" iconClass="icon-homepage">
             <div className="teacher-home">
                 <TeacherContentHeader studentNum={ this.state.studentNum }></TeacherContentHeader>
 

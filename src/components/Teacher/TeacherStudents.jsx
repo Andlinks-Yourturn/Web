@@ -115,7 +115,7 @@ export default class TeacherStudents extends Component {
 
         const studentName = (studentDetail.lastName && studentDetail.firstName) ? `${studentDetail.lastName}.${studentDetail.firstName}` : studentDetail.userName || '';
 
-        return <Frame headerTitle="Main Page">
+        return <Frame headerTitle="Main Page" iconClass="icon-student">
             <div className="teacher-home">
                 <TeacherContentHeader studentNum={ this.state.studentNum }></TeacherContentHeader>
 
@@ -141,7 +141,7 @@ export default class TeacherStudents extends Component {
                                     return <tr key={ student.id }>
                                         <td><Radio checked={ student.id === this.state.radioCheckedId ? true: false } onChange={ this.radioSelect.bind(this, student.id) }>&nbsp;</Radio></td>
                                         <td>{ student.userName }</td>
-                                        <td>{ student.documentAddress }</td>
+                                        <td>{ student.docAddress }</td>
                                         <td>{ getDateStringFromUnix(student.createDate) }</td>
                                     </tr>
                                 })

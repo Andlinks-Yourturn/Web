@@ -3,7 +3,8 @@ import Frame from '../../layouts/Frame';
 import { fetchMyProjectList } from '../../services/donator';
 import DonatorContentHeader from "../common/DonatorContentHeader";
 import DonatorContentBody from "../common/DonatorContentBody";
-import setBalance from '../../services/common';
+import { setBalance } from '../../services/common';
+
 
 export default class DonatorHome extends Component {
 
@@ -84,14 +85,16 @@ export default class DonatorHome extends Component {
                     },
                     {
                         name: 'Create Time',
-                        order: true
+                        sort: true,
+                        sortValue: 'createDate'
                     },
                     {
                         name: 'Key Word'
                     },
                     {
                         name: 'Balance',
-                        order: true
+                        sort: true,
+                        sortValue: 'totalDonation'
                     }
                 ],
                 tableBody: {
@@ -100,7 +103,8 @@ export default class DonatorHome extends Component {
                 }
             },
             buttonName: 'Donate Again',
-            balance: this.state.donatorBalance
+            balance: this.state.donatorBalance,
+            projectNum: this.state.projectNum
         };
 
         const callback = {
@@ -110,14 +114,13 @@ export default class DonatorHome extends Component {
         };
 
 
-        return <Frame headerTitle="MainPage">
+        return <Frame headerTitle="Main Page" iconClass="icon-homepage">
                     <div className="donator-home">
                         {/*内容头部*/}
                         <DonatorContentHeader balance={ this.state.donatorBalance } projectNum={ this.state.projectNum }></DonatorContentHeader>
 
                         {/*内容体*/}
-                        <DonatorContentBody { ...optionInfo } getProjectList={ this.getMyProjectList.bind(this) } callback={ callback }>
-                        </DonatorContentBody>
+                        <DonatorContentBody { ...optionInfo } getProjectList={ this.getMyProjectList.bind(this) } callback={ callback } />
                     </div>
         </Frame>;
     }

@@ -110,7 +110,7 @@ export default class StudentInfoInput extends React.Component {
             }
         ];
 
-        return  <Frame headerTitle="Create A Student">
+        return  <Frame headerTitle="Create A Student" iconClass="icon-student">
             <div className="student-info-input">
                 <Panel header="Student Information">
                     <form className="student-form">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import setBalance from '../../services/common';
+import { setBalance } from '../../services/common';
 import '../../styles/student_content.scss';
 
 export default class StudentContentHeader extends Component{

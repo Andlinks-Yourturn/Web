@@ -7,6 +7,6 @@ export default class Header extends Component {
     }
 
     render() {
-        return <div className="app-header">{ this.props.title }</div>;
+        return <div className="app-header"><i className={ `iconfont ${ this.props.iconClass}` }></i>{ this.props.title }</div>;
     }
 }

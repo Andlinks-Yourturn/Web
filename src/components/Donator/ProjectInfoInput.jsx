@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Panel, Input, Select, Button } from 'mtui/index';
+import { Panel, Input, Select, Button, Validate } from 'mtui/index';
 import Frame from '../../layouts/Frame';
 import { addProject } from '../../services/donator';
 import { hashHistory } from 'react-router';
@@ -90,7 +90,7 @@ export default class ProjectInfoInput extends Component {
             }
         ];
 
-        return (<Frame headerTitle="Create A New Project">
+        return (<Frame headerTitle="Create A New Project" iconClass="icon-project">
             <div className="project-info-input">
                 <Panel header="Project Information">
                     <form className="project-form">
