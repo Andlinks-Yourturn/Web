@@ -66,7 +66,7 @@ export default class LoginForm extends React.Component {
                 <Input onChange={ (e) => this.inputChange(e, 'password')} name="password" type="password" placeholder="Password" block="true"/>
                 <Button block="true" onClick={ this.login.bind(this) }>Login</Button>
 
-                <div className="no-account-box">没有账户?请<a href="#/register">注册</a></div>
+                <div className="no-account-box">No Account? Please<a href="#/register">register</a></div>
             </form>
         </div>);
     }

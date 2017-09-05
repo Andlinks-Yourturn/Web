@@ -1,11 +1,12 @@
 import React from 'react';
-import { Panel, Input, Select, Button, DatePicker } from 'mtui/index';
+import { Panel, Input, Select, Button, DatePicker, Validate } from 'mtui/index';
 import Frame from '../../layouts/Frame';
 import { addStudent } from '../../services/student';
 import { hashHistory } from 'react-router';
 import './student.scss';
 
 const Option = Select.Option;
+const ValidateGroup = Validate.ValidateGroup;
 
 export default class StudentInfoInput extends React.Component {
 
@@ -73,92 +74,108 @@ export default class StudentInfoInput extends React.Component {
     render() {
         const majors = [
             {
-                name: '经济学',
-                value: '经济学'
+                name: 'Economics',
+                value: 'Economics'
             },
             {
-                name: '法学',
-                value: '法学'
+                name: 'Law',
+                value: 'Law'
             },
             {
-                name: '艺术',
-                value: '艺术'
+                name: 'Art',
+                value: 'Art'
             },
             {
-                name: '哲学',
-                value: '哲学'
+                name: 'Philosophy',
+                value: 'Philosophy'
             },
             {
-                name: '信息与计算机科学',
-                value: '信息与计算机科学'
+                name: 'Information and Computing Sciences',
+                value: 'Information and Computing Sciences'
             },
             {
-                name: '电子科学与技术',
-                value: '电子科学与技术'
+                name: 'Electronic Science and Technology',
+                value: 'Electronic Science and Technology'
             },
             {
-                name: '自动化',
-                value: '自动化'
+                name: 'Automation',
+                value: 'Automation'
             },
             {
-                name: '会计学',
-                value: '会计学'
+                name: 'Accounting',
+                value: 'Accounting'
             },
             {
-                name: '机械工程',
-                value: '机械工程'
+                name: 'Mechanical Engineering and Automation',
+                value: 'Mechanical Engineering and Automation'
             }
         ];
 
         return  <Frame headerTitle="Create A Student" iconClass="icon-student">
             <div className="student-info-input">
                 <Panel header="Student Information">
-                    <form className="student-form">
+                    <ValidateGroup className="student-form">
                         <div className="preview-ago" style={{ 'display': this.state.showPreview ? 'none' : 'block'}}>
                             <div>
                                 <label htmlFor="firstName">First Name</label>
-                                <Input name="firstName" type="text" placeholder="FirstName" onChange={ (e) => this.inputChange(e, 'firstName')}/>
+                                <Validate exgs={[{regs:'notempty',type:'warning',info:'firstName不能为空！'}]}>
+                                    <Input name="firstName" type="text" placeholder="FirstName" onChange={ (e) => this.inputChange(e, 'firstName')}/>
+                                </Validate>
                             </div>
 
                             <div>
                                 <label htmlFor="lastName">Last Name</label>
-                                <Input name="lastName" type="text" placeholder="LastName" onChange={ (e) => this.inputChange(e, 'lastName')}/>
+                                <Validate exgs={[{regs:'notempty',type:'warning',info:'lastName不能为空！'}]}>
+                                    <Input name="lastName" type="text" placeholder="LastName" onChange={ (e) => this.inputChange(e, 'lastName')}/>
+                                </Validate>
                             </div>
 
                             <div>
                                 <label htmlFor="username">Username</label>
-                                <Input name="username" type="text" placeholder="Username" onChange={ (e) => this.inputChange(e, 'userName')}/>
+                                <Validate exgs={[{regs: 'username',type:'danger',info:'请输入有效用户名！'}, {regs:'notempty',type:'warning',info:'username不能为空！'}]}>
+                                    <Input name="username" type="text" placeholder="Username" onChange={ (e) => this.inputChange(e, 'userName')}/>
+                                </Validate>
                             </div>
 
                             <div>
                                 <label htmlFor="password">Password</label>
-                                <Input name="password" type="password" placeholder="Password" onChange={ (e) => this.inputChange(e, 'password')}/>
+                                <Validate exgs={[{regs: 'password',type:'danger',info:'请输入有效密码！'}, {regs:'notempty',type:'warning',info:'password不能为空！'}]}>
+                                    <Input name="password" type="password" placeholder="Password" onChange={ (e) => this.inputChange(e, 'password')}/>
+                                </Validate>
                             </div>
 
                             <div>
                                 <label htmlFor="birth">Birth</label>
-                                <DatePicker size="md" defaultValue="" placeholder="Birth" format="yyyy-mm-dd" onChange={ this.selectBirth.bind(this) } />
+                                <Validate exgs={[{regs:'notempty',type:'warning',info:'birth不能为空！'}]}>
+                                    <DatePicker size="md" defaultValue="" placeholder="Birth" format="yyyy-mm-dd" onChange={ this.selectBirth.bind(this) } />
+                                </Validate>
                             </div>
 
                             <div>
                                 <label htmlFor="major">Major</label>
-                                <Select defaultValue="Computer Science" trigger="click" style={{ width: 275}} placeholder="Major" onChange={ this.selectMajor.bind(this) }>
-                                    {
-                                        ( majors && majors.length > 0) && majors.map((major, index) => {
-                                            return <Option key={ index } value={ major.value }> { major.name }</Option>
-                                        })
-                                    }
-                                </Select>
+                                <Validate exgs={[{regs:'notempty',type:'warning',info:'major不能为空！'}]}>
+                                    <Select defaultValue="Computer Science" trigger="click" style={{ width: 275}} placeholder="Major" onChange={ this.selectMajor.bind(this) }>
+                                        {
+                                            ( majors && majors.length > 0) && majors.map((major, index) => {
+                                                return <Option key={ index } value={ major.value }> { major.name }</Option>
+                                            })
+                                        }
+                                    </Select>
+                                </Validate>
                             </div>
 
                             <div>
                                 <label htmlFor="gpa">GPA</label>
-                                <Input name="gpa" type="text" placeholder="GPA" onChange={ (e) => this.inputChange(e, 'gpa')}/>
+                                <Validate exgs={[{regx:'^[1-9]\\d*(\.\\d{1})?$',type:'danger',info:'正整数或只有一位的小数！'}, {regs:'notempty',type:'warning',info:'gpa不能为空！'}]}>
+                                    <Input name="gpa" type="text" placeholder="GPA" onChange={ (e) => this.inputChange(e, 'gpa')}/>
+                                </Validate>
                             </div>
 
                             <div>
                                 <label htmlFor="rank">Rank</label>
-                                <Input name="rank" type="text" placeholder="Rank" onChange={ (e) => this.inputChange(e, 'rank')}/>
+                                <Validate exgs={[{regx:'^[1-9]\\d*$',type:'danger',info:'请输入正整数！'}, {regs:'notempty',type:'warning',info:'rank不能为空！'}]}>
+                                    <Input name="rank" type="text" placeholder="Rank" onChange={ (e) => this.inputChange(e, 'rank')}/>
+                                </Validate>
                             </div>
 
                             <Button className="preview-btn" onClick={ this.showPreview.bind(this, true) }>Preview</Button>
@@ -212,7 +229,7 @@ export default class StudentInfoInput extends React.Component {
                                 <Button className="create-btn" onClick={ this.addStudentSubmit.bind(this) }>Create</Button>
                             </div>
                         </div>
-                    </form>
+                    </ValidateGroup>
                 </Panel>
             </div>
         </Frame>;

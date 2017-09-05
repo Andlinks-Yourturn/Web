@@ -20,6 +20,8 @@ export default class DonatorContentBody extends Component {
         this.inputChange = this.inputChange.bind(this);
         this.searchProjectList = this.searchProjectList.bind(this);
 
+        this.refsPageList = null;
+
         this.queryParam = { page: 1 };            // 查询参数
         this.callback = this.props.callback;  // 回调函数
     }
@@ -95,13 +97,14 @@ export default class DonatorContentBody extends Component {
 
     // 按关键字搜索
     searchProjectList() {
-
-        if(this.searchText === undefined && this.queryParam.hasOwnProperty('input')) {
-            delete this.queryParam.input;
-        }else {
+        let queryParam = null;
+        if(this.searchText !== undefined) {
+            queryParam = { input: this.searchText };
             this.queryParam.input = this.searchText;
         }
-        this.props.getProjectList(this.queryParam)(this.callback.successCallback, this.callback.errorCallback);
+        this.props.getProjectList(queryParam)(this.callback.successCallback, this.callback.errorCallback);
+
+        this.refsPageList.refresh();
     }
 
     // 根据时间或项目金额排序列表
@@ -184,7 +187,7 @@ export default class DonatorContentBody extends Component {
                 </table>
 
                 {/*分页*/}
-                <PageList current={1} pageSize={10} callback={ this.goToPage.bind(this) } total={ projectNum }/>
+                <PageList current={1} pageSize={10} callback={ this.goToPage.bind(this) } total={ projectNum } ref={ (c) => { this.refsPageList = c; }}/>
             </Panel>
 
             {
