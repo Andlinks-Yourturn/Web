@@ -52,21 +52,19 @@ export default class LoginForm extends React.Component {
 
     componentDidMount() {
         if(document.addEventListener) {
-            const _this = this;
-            document.addEventListener('keyup', function(e) {
+            document.body.addEventListener('keyup', (e) => {
                if(e.keyCode === 13) {
                    // 回车事件
-                   _this.login();
+                   this.login();
                }
             });
         }
 
         if(document.attachEvent) {
-            const _this = this;
-            document.attachEvent('onkeyup', function(e) {
+            document.body.attachEvent('onkeyup', (e) => {
                 if(e.keyCode === 13) {
                     // 回车事件
-                    _this.login();
+                    this.login();
                 }
             })
         }
@@ -74,17 +72,12 @@ export default class LoginForm extends React.Component {
 
     componentWillMount() {
         if(document.removeEventListener){
-            const _this = this;
-            document.removeEventListener('keyup', function(e) {
-                if(e.keyCode === 13) {
-                    _this.login();
-                }
-            });
+            document.body.removeEventListener('keyup',function(){});
         }
 
         if(document.detachEvent) {
             const _this = this;
-            document.detachEvent('onkeyup', function(e) {
+            document.body.detachEvent('onkeyup', function(e) {
                 if(e.keyCode === 13) {
                     _this.login();
                 }

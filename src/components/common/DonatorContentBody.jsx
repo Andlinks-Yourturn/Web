@@ -250,8 +250,8 @@ export default class DonatorContentBody extends Component {
                     </div>
                     <div className="panel-body">
                         <Input name="projectName" disabled="true" value={ this.state.checkedProject ? this.state.checkedProject.projectName : ''}/>
-                        <Input name="myBalance" disabled="true" value={ `余额:${balance || 0}` }/>
-                        <Input name="amount" placeholder="(份数)" type="text" onChange={ (e) => this.inputChange(e, 'amount') } value={ this.state.formData.amount || '' }/>
+                        <Input name="myBalance" disabled="true" value={ `balance:${balance || 0}` }/>
+                        <Input name="amount" placeholder="(block)" type="text" onChange={ (e) => this.inputChange(e, 'amount') } value={ this.state.formData.amount || '' }/>
                         <Input name="password" placeholder="Password" type="password" onChange={ (e) => this.inputChange(e, 'password') } value={ this.state.formData.password || ''}/>
 
                         <Button className="donate-btn" onClick={ this.donateMoney.bind(this) }>Donate</Button>

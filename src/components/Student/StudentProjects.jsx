@@ -166,7 +166,7 @@ export default class StudentProjects extends Component {
                     columnName: ['projectName', 'keyword', 'creator-userName', 'totalDonation', 'createDate']
                 }
             },
-            buttonName: '比较条件',
+            buttonName: 'contrast',
             projectNum: this.state.projectNum
         };
 

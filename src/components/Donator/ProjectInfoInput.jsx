@@ -136,7 +136,7 @@ export default class ProjectInfoInput extends Component {
                                     <div className="criteria-item">
                                         <label htmlFor="major">Major</label>
                                         <Validate exgs={[{regs:'notempty',type:'warning',info:'major不能为空！'}]}>
-                                            <Select trigger="click" placeholder="Major" onChange={ this.selectChange.bind(this) }>
+                                            <Select trigger="click" placeholder="Major" onChange={ this.selectChange.bind(this) } style={{ width: 160 }}>
                                                 {
                                                     ( majors && majors.length) && majors.map((major, index) => {
                                                         return <Option key={ index } value={ major.value }>{ major.name }</Option>

@@ -116,7 +116,7 @@ export default class StudentHome extends Component {
                     columnName: ['projectName', 'keyWord', 'verifyPassTime', 'benefit']
                 }
             },
-            buttonName: '查看条件',
+            buttonName: 'Who is eligible',
             projectNum: this.state.projectNum
         };
 

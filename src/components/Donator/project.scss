@@ -69,6 +69,17 @@
                             width: 100%;
                         }
                     }
+
+                    .mt-select-input {
+                        & > span:first-child {
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                            display: block;
+                            position: relative;
+                            top: -23px;
+                        }
+                    }
                 }
             }
 
