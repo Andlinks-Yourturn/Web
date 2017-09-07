@@ -6,6 +6,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "classnames": "^2.2.5",
+    "extract-text-webpack-plugin": "^2.1.2",
     "mtui": "^2.4.5",
     "rc-upload": "^2.3.4",
     "react": "^15.4.2",
@@ -63,7 +64,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "build:dev": "set NODE_ENV=development && webpack --config webpack.config.dev.js --progress --display-error-details --colors --watch"
+    "build:dev": "set NODE_ENV=development && webpack --config webpack.config.dev.js --progress --display-error-details --colors --watch",
+    "build:prod": "set NODE_ENV=production && webpack --config webpack.config.prod.js --progress --display-error-details --colors --watch"
   },
   "author": "zuilafeng",
   "license": "ISC"
