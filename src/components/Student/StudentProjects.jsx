@@ -101,11 +101,11 @@ export default class StudentProjects extends Component {
             }).then((res => {
                if(res && res.status === 'SUCCESS' && res.result) {
                    if(res.result.status === 'success') {
-                       this.state.applyResult = '申请成功!';
+                       this.state.applyResult = 'Apply Success!';
                        this.state.showApplyBtn = false;
                    }
                    if(res.result.status === 'failure') {
-                       this.state.applyResult = '申请失败!';
+                       this.state.applyResult = 'Apply Failure!';
                    }
 
                    this.setState({
