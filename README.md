@@ -1,4 +1,16 @@
 
+# Guide for deploy Java Web Application
+## In dev Mode
+run `node server.js` & `npm run build:dev`
+
+This will generate a build folder in development mode
+
+## In production mode
+
+run `npm run build:prod`
+
+This will generate a build folder in production mode
+
 ### 发布流程
 1. 开发模式:
     运行 node server.js
